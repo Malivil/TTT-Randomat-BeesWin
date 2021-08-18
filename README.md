@@ -19,3 +19,5 @@ _randomat_beeswin_count_ - Default: 2 - The number of bees spawned per player.
 ## Special Thanks
 * Lewis of the Yogscast for the idea for this event
 * The Yogscast for the video thumbnail used in the addon icon
+* [Noxx](https://steamcommunity.com/id/noxxflame/) for his help with idea and making the role images
+* [Jenssons](https://steamcommunity.com/profiles/76561198044525091) for his bee nade that was the driving idea behind this whole thing and for the bee model which this uses for the bee weapon
