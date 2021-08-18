@@ -3,7 +3,7 @@ local EVENT = {}
 util.AddNetworkString("RandomatBeesWinBegin")
 util.AddNetworkString("RandomatBeesWinEnd")
 
-CreateConVar("randomat_beeswin_count", 2, {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "The number of bees spawned per player", 1, 10)
+CreateConVar("randomat_beeswin_count", 3, {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "The number of bees spawned per player", 0, 10)
 
 EVENT.Title = "Bees Win?"
 EVENT.Description = "Those aren't traitors, they're BEEEEEEEEES!"
@@ -15,7 +15,7 @@ function EVENT:Begin()
 
     BEESWIN:RegisterRoles()
 
-    hook.Add("TTTPrintResultMessage", "RandomatBeesWinPrintResult", function(win_type)
+    self:AddHook("TTTPrintResultMessage", function(win_type)
         if win_type == WIN_BEES then
             LANG.Msg("win_bees")
             ServerLog("Result: Bees win.\n")
@@ -23,11 +23,12 @@ function EVENT:Begin()
         end
     end)
 
-    hook.Add("TTTCheckForWin", "RandomatBeesWinCheck", function()
+    self:AddHook("TTTCheckForWin", function()
         local bees_win = true
         for _, p in ipairs(player.GetAll()) do
             -- If there is a living non-bee then go back to the default check logic
-            if p:Alive() and not p:IsSpec() and not Randomat:IsTraitorTeam(p) then
+            -- Exceptions for non-clown Jesters
+            if p:Alive() and not p:IsSpec() and not Randomat:IsTraitorTeam(p) and (p:GetRole() == ROLE_CLOWN or not Randomat:IsJesterTeam(p)) then
                 bees_win = false
                 break
             end
@@ -38,21 +39,87 @@ function EVENT:Begin()
         end
     end)
 
-    -- TODO: Select bees
-    -- TODO: Set Queen Bee to 3 credits
-    -- TODO: Make bee team immune to bee damage
-    -- TODO: Give weapon_ttt_randomatbeecannon to non-queens
-    -- TODO: Start "bees" event
-    -- TODO: Tell everyone wtf is happening
+    local traitors = {}
+    local special = nil
+    -- Collect the traitors to turn into bees
+    for _, p in ipairs(self:GetAlivePlayers(true)) do
+        if Randomat:IsTraitorTeam(p) then
+            if p:GetRole() ~= ROLE_TRAITOR and special == nil then
+                special = p
+            end
+            table.insert(traitors, p)
+        end
+    end
+
+    -- If we don't have a special traitor, choose a random player
+    if special == nil then
+        special = traitors[math.random(1, #traitors)]
+    end
+
+    -- Convert the special traitor to the queen bee
+    Randomat:SetRole(special, _G["ROLE_QUEENBEE"])
+    self:StripRoleWeapons(special)
+    special:SetCredits(3)
+    special:PrintMessage(HUD_PRINTTALK, "You are the Queen Bee! Command your bees to swarm the enemy!")
+
+    -- Convert all the other traitors to regular bees and give them their special weapon
+    for _, p in ipairs(traitors) do
+        if p ~= special then
+            Randomat:SetRole(p, _G["ROLE_BEE"])
+            self:StripRoleWeapons(p)
+            p:SetCredits(0)
+            p:Give("weapon_ttt_randomatbeecannon")
+            p:PrintMessage(HUD_PRINTTALK, "You are a Worker Bee! Use your bee cannon and work with your hive to kill the enemy!")
+        end
+    end
+    SendFullStateUpdate()
+
+    -- Make bee team immune to bee damage
+    self:AddHook("EntityTakeDamage", function(ent, dmginfo)
+        if not IsValid(ent) or not ent:IsPlayer() then return end
+        local att = dmginfo:GetAttacker()
+        if Randomat:IsTraitorTeam(ent) and att:GetClass() == "npc_manhack" then
+            dmginfo:ScaleDamage(0)
+            dmginfo:SetDamage(0)
+            return false
+        end
+    end)
+
+    -- Start "bees" event if that is enabled
+    local bee_count = GetConVar("randomat_beeswin_count"):GetInt()
+    if bee_count > 0 then
+        local t_count = #traitors
+        local t_current = 1
+        local b_current = 0
+        timer.Create("RandomatBeesWinBeeSpawn", 0.1, bee_count * t_count, function()
+            local rdmply = traitors[t_current]
+            Randomat:SpawnBee(rdmply)
+
+            -- Spawn an even number of bees around each bee role
+            b_current = b_current + 1
+            if b_current >= bee_count then
+                t_current = t_current + 1
+                b_current = 0
+            end
+        end)
+    end
 end
 
 function EVENT:End()
-    hook.Remove("TTTPrintResultMessage", "RandomatBeesWinPrintResult")
-    hook.Remove("TTTCheckForWin", "RandomatBeesWinCheck")
+    timer.Remove("RandomatBeesWinBeeSpawn")
 end
 
 function EVENT:Condition()
-    return CR_VERSION and CRVersion("1.0.14")
+    if not CR_VERSION or not CRVersion("1.0.14") then return false end
+
+    local t = 0
+    for _, p in ipairs(self:GetAlivePlayers()) do
+        if Randomat:IsTraitorTeam(p) then
+            t = t + 1
+        end
+    end
+
+    return t >= 2
 end
 
 function EVENT:GetConVars()

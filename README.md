@@ -14,7 +14,7 @@ More permanently, the ConVars below can be put in the server.cfg (for dedicated 
 _ttt_randomat_beeswin_ - Default: 1 - Whether this event is enabled.\
 _ttt_randomat_beeswin_min_players_ - Default: 0 - The minimum number of players required for this event to start.\
 _ttt_randomat_beeswin_weight_ - Default: -1 - The weight this event should use during the randomized event selection process.\
-_randomat_beeswin_count_ - Default: 2 - The number of bees spawned per player.
+_randomat_beeswin_count_ - Default: 3 - The number of bees spawned per player.
 
 ## Special Thanks
 * Lewis of the Yogscast for the idea for this event

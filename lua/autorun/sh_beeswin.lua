@@ -5,6 +5,27 @@ BEESWIN = {
 -- "Bee" on a cell keyboard
 WIN_BEES = 233
 
+local function CreateRole(role)
+    local rolestring = role.nameraw
+    CreateConVar("ttt_" .. rolestring .. "_enabled", "0")
+    CreateConVar("ttt_" .. rolestring .. "_spawn_weight", "1")
+    CreateConVar("ttt_" .. rolestring .. "_min_players", "0")
+    CreateConVar("ttt_" .. rolestring .. "_starting_health", "100")
+    CreateConVar("ttt_" .. rolestring .. "_max_health", "100")
+    CreateConVar("ttt_" .. rolestring .. "_name", role.name)
+    CreateConVar("ttt_" .. rolestring .. "_name_plural", role.nameplural)
+    CreateConVar("ttt_" .. rolestring .. "_name_article", role.nameext)
+    CreateConVar("ttt_" .. rolestring .. "_shop_random_percent", "0")
+    CreateConVar("ttt_" .. rolestring .. "_shop_random_enabled", "0")
+    RegisterRole(role)
+
+    if role.shop then
+        for _, v in pairs(role.shop) do
+            table.insert(WEPS.BuyableWeapons[_G["ROLE_" .. rolestring:uppeR()]], v)
+        end
+    end
+end
+
 function BEESWIN:RegisterRoles()
     if self.registered then return end
 
@@ -15,29 +36,25 @@ function BEESWIN:RegisterRoles()
         nameraw = "bee",
         name = "Bee",
         nameplural = "Bees",
-        namext = "a Bee",
+        nameext = "a Bee",
         nameshort = "bee",
         team = ROLE_TEAM_TRAITOR
     }
-    RegisterRole(BEE)
+    CreateRole(BEE)
 
     -- Register the Queen Bee
     local QBEE = {
         nameraw = "queenbee",
         name = "Queen Bee",
         nameplural = "Queen Bees",
-        namext = "a Queen Bee",
+        nameext = "a Queen Bee",
         nameshort = "qbee",
         shop = {"weapon_ttt_beenade", "weapon_controllable_manhack"},
         team = ROLE_TEAM_TRAITOR
     }
-    RegisterRole(QBEE)
+    CreateRole(QBEE)
 
     if SERVER then
-        -- Disable both roles from spawning
-        GetConVar("ttt_queenbee_enabled"):SetBool(false)
-        GetConVar("ttt_bee_enabled"):SetBool(false)
-
         resource.AddFile("materials/vgui/ttt/icon_bee.vmt")
         resource.AddFile("materials/vgui/ttt/sprite_bee.vmt")
         resource.AddSingleFile("materials/vgui/ttt/sprite_bee_noz.vmt")
