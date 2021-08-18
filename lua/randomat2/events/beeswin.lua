@@ -27,7 +27,7 @@ function EVENT:Begin()
         local bees_win = true
         for _, p in ipairs(player.GetAll()) do
             -- If there is a living non-bee then go back to the default check logic
-            if p:Alive() and not p:IsSpec() and not BEESWIN:IsBeeTeam(p) then
+            if p:Alive() and not p:IsSpec() and not Randomat:IsTraitorTeam(p) then
                 bees_win = false
                 break
             end
@@ -52,7 +52,7 @@ function EVENT:End()
 end
 
 function EVENT:Condition()
-    return CR_VERSION and CRVersion("1.1.3")
+    return CR_VERSION and CRVersion("1.0.14")
 end
 
 function EVENT:GetConVars()

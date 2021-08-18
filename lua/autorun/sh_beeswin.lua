@@ -55,7 +55,3 @@ function BEESWIN:RegisterRoles()
         LANG.AddToLanguage("english", "win_bees", "The bees have stung their way to a win!")
     end
 end
-
-function BEESWIN:IsBeeTeam(ply)
-    return ply:IsQueenBee() or ply:IsBee()
-end
