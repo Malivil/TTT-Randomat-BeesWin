@@ -24,6 +24,12 @@ local function CreateRole(role)
         if not WEPS.BuyableWeapons[role_num] then
             WEPS.BuyableWeapons[role_num] = {}
         end
+        if not WEPS.ExcludeWeapons[role_num] then
+            WEPS.ExcludeWeapons[role_num] = {}
+        end
+        if not WEPS.BypassRandomWeapons[role_num] then
+            WEPS.BypassRandomWeapons[role_num] = {}
+        end
         if not EquipmentItems[role_num] then
             EquipmentItems[role_num] = {}
         end
