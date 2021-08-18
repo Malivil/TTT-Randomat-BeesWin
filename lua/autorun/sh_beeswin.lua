@@ -20,8 +20,16 @@ local function CreateRole(role)
     RegisterRole(role)
 
     if role.shop then
+        local role_num = _G["ROLE_" .. rolestring:upper()]
+        if not WEPS.BuyableWeapons[role_num] then
+            WEPS.BuyableWeapons[role_num] = {}
+        end
+        if not EquipmentItems[role_num] then
+            EquipmentItems[role_num] = {}
+        end
+
         for _, v in pairs(role.shop) do
-            table.insert(WEPS.BuyableWeapons[_G["ROLE_" .. rolestring:uppeR()]], v)
+            table.insert(WEPS.BuyableWeapons[role_num], v)
         end
     end
 end
@@ -49,7 +57,7 @@ function BEESWIN:RegisterRoles()
         nameplural = "Queen Bees",
         nameext = "a Queen Bee",
         nameshort = "qbee",
-        shop = {"weapon_ttt_beenade", "weapon_controllable_manhack"},
+        shop = {"item_radar", "weapon_ttt_beenade", "weapon_controllable_manhack"},
         team = ROLE_TEAM_TRAITOR
     }
     CreateRole(QBEE)
