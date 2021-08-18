@@ -6,7 +6,7 @@ util.AddNetworkString("RandomatBeesWinEnd")
 CreateConVar("randomat_beeswin_count", 2, {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "The number of bees spawned per player", 1, 10)
 
 EVENT.Title = "Bees Win?"
-EVENT.Description = ""
+EVENT.Description = "Those aren't traitors, they're BEEEEEEEEES!"
 EVENT.id = "beeswin"
 
 function EVENT:Begin()
