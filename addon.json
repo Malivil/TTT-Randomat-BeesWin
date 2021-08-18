@@ -1,0 +1,15 @@
+{
+  "title": "TTT Randomat 2.0 - \"Bees Win?\" Event",
+  "type": "ServerContent",
+  "ignore": [
+    ".git*",
+	".vscode*",
+    "*.md",
+    "*.iml",
+    ".idea*",
+    "*.psd",
+    "*.vcproj",
+    "*.svn*",
+    "LICENSE"
+  ]
+}
