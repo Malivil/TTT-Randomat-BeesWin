@@ -2,8 +2,10 @@
 Adds a new event that converts the traitor team to bee-themed roles with bee weapons and an army of bee drones.
 
 ## Dependencies
-[TTT Randomat 2.0](https://steamcommunity.com/sharedfiles/filedetails/?id=2055805086) - Base Randomat mod which will automatically load this event\
-[Custom Roles for TTT](https://steamcommunity.com/sharedfiles/filedetails/?id=2421039084) - Base roles mod which this event uses to create the bee-themed roles
+[TTT Randomat 2.0](https://steamcommunity.com/sharedfiles/filedetails/?id=2055805086) - Base Randomat mod which will automatically load this event.\
+[Custom Roles for TTT](https://steamcommunity.com/sharedfiles/filedetails/?id=2421039084) - Base roles mod which this event uses to create the bee-themed roles.\
+[Jenssons TTT BeeNade](https://steamcommunity.com/workshop/filedetails/?id=913310851) - Grenade that spawns bees. Source of the original "The Bees Win" concept as well as the models and textures for the bees. Buyable by the Queen Bee.\
+[TTT Controllable Manhack](https://steamcommunity.com/workshop/filedetails/?id=1377883019) - Buyable by the Queen Bee.
 
 ## Configuration
 Configurations can be temporarily changed using the ULX admin system and the [Randomat 2.0 ULX Plugin](https://steamcommunity.com/sharedfiles/filedetails/?id=2096758509)
