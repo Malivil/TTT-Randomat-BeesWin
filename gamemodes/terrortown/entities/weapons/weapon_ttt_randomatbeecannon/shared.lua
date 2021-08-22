@@ -3,11 +3,10 @@ AddCSLuaFile()
 if CLIENT then
     SWEP.PrintName = "Bee Cannon"
     SWEP.Slot = 9
-    SWEP.Icon = "vgui/ttt/icon_revolver"
-    SWEP.IconLetter = "f"
 end
 
 SWEP.Base = "weapon_tttbase"
+SWEP.Category = WEAPON_CATEGORY_ROLE
 SWEP.HoldType = "rpg"
 SWEP.DrawAmmo = false
 SWEP.DrawCrosshair = false

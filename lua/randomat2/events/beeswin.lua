@@ -8,6 +8,7 @@ CreateConVar("randomat_beeswin_count", 3, {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "The nu
 EVENT.Title = "Bees Win?"
 EVENT.Description = "Those aren't traitors, they're BEEEEEEEEES!"
 EVENT.id = "beeswin"
+EVENT.Type = EVENT_TYPE_WEAPON_OVERRIDE
 
 function EVENT:Begin()
     net.Start("RandomatBeesWinBegin")
