@@ -2,6 +2,24 @@ BEESWIN = {
     registered = false
 }
 
+if SERVER then
+    resource.AddFile("materials/vgui/ttt/icon_bee.vmt")
+    resource.AddFile("materials/vgui/ttt/sprite_bee.vmt")
+    resource.AddSingleFile("materials/vgui/ttt/sprite_bee_noz.vmt")
+    resource.AddSingleFile("materials/vgui/ttt/score_bee.png")
+    resource.AddSingleFile("materials/vgui/ttt/tab_bee.png")
+
+    resource.AddFile("materials/vgui/ttt/icon_qbee.vmt")
+    resource.AddFile("materials/vgui/ttt/sprite_qbee.vmt")
+    resource.AddSingleFile("materials/vgui/ttt/sprite_qbee_noz.vmt")
+    resource.AddSingleFile("materials/vgui/ttt/score_qbee.png")
+    resource.AddSingleFile("materials/vgui/ttt/tab_qbee.png")
+end
+
+if CLIENT then
+    LANG.AddToLanguage("english", "win_bees", "The bees have stung their way to a win!")
+end
+
 -- "Bee" on a cell keyboard
 WIN_BEES = 233
 
@@ -67,22 +85,4 @@ function BEESWIN:RegisterRoles()
         team = ROLE_TEAM_TRAITOR
     }
     CreateRole(QBEE)
-
-    if SERVER then
-        resource.AddFile("materials/vgui/ttt/icon_bee.vmt")
-        resource.AddFile("materials/vgui/ttt/sprite_bee.vmt")
-        resource.AddSingleFile("materials/vgui/ttt/sprite_bee_noz.vmt")
-        resource.AddSingleFile("materials/vgui/ttt/score_bee.png")
-        resource.AddSingleFile("materials/vgui/ttt/tab_bee.png")
-
-        resource.AddFile("materials/vgui/ttt/icon_qbee.vmt")
-        resource.AddFile("materials/vgui/ttt/sprite_qbee.vmt")
-        resource.AddSingleFile("materials/vgui/ttt/sprite_qbee_noz.vmt")
-        resource.AddSingleFile("materials/vgui/ttt/score_qbee.png")
-        resource.AddSingleFile("materials/vgui/ttt/tab_qbee.png")
-    end
-
-    if CLIENT then
-        LANG.AddToLanguage("english", "win_bees", "The bees have stung their way to a win!")
-    end
 end
