@@ -16,10 +16,6 @@ if SERVER then
     resource.AddSingleFile("materials/vgui/ttt/tab_qbee.png")
 end
 
-if CLIENT then
-    LANG.AddToLanguage("english", "win_bees", "The bees have stung their way to a win!")
-end
-
 -- "Bee" on a cell keyboard
 WIN_BEES = 233
 
@@ -85,4 +81,8 @@ function BEESWIN:RegisterRoles()
         team = ROLE_TEAM_TRAITOR
     }
     CreateRole(QBEE)
+
+    if CLIENT then
+        LANG.AddToLanguage("english", "win_bees", "The bees have stung their way to a win!")
+    end
 end
