@@ -16,9 +16,6 @@ if SERVER then
     resource.AddSingleFile("materials/vgui/ttt/tab_qbee.png")
 end
 
--- "Bee" on a cell keyboard
-WIN_BEES = 233
-
 local function CreateRole(role)
     local rolestring = role.nameraw
     CreateConVar("ttt_" .. rolestring .. "_enabled", "0")
@@ -58,6 +55,9 @@ function BEESWIN:RegisterRoles()
     if self.registered then return end
 
     self.registered = true
+
+    -- If we can't autogenerate one, use "Bee" on a cell keyboard
+    WIN_BEES = GenerateNewWinID and GenerateNewWinID() or 233
 
     -- Register the Bee
     local BEE = {
