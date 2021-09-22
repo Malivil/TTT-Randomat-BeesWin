@@ -58,7 +58,7 @@ function EVENT:Begin()
     end
 
     -- Convert the special traitor to the queen bee
-    Randomat:SetRole(special, _G["ROLE_QUEENBEE"])
+    Randomat:SetRole(special, ROLE_QUEENBEE)
     self:StripRoleWeapons(special)
     special:SetCredits(3)
     special:PrintMessage(HUD_PRINTTALK, "You are the Queen Bee! Command your bees to swarm the enemy!")
@@ -66,7 +66,7 @@ function EVENT:Begin()
     -- Convert all the other traitors to regular bees and give them their special weapon
     for _, p in ipairs(traitors) do
         if p ~= special then
-            Randomat:SetRole(p, _G["ROLE_BEE"])
+            Randomat:SetRole(p, ROLE_BEE)
             self:StripRoleWeapons(p)
             p:SetCredits(0)
             p:Give("weapon_ttt_randomatbeecannon")
@@ -77,8 +77,11 @@ function EVENT:Begin()
 
     -- Make bee team immune to bee damage
     self:AddHook("EntityTakeDamage", function(ent, dmginfo)
-        if not IsValid(ent) or not ent:IsPlayer() then return end
+        if not IsPlayer(ent) then return end
+
         local att = dmginfo:GetAttacker()
+        if not IsValid(att) then return end
+
         if Randomat:IsTraitorTeam(ent) and att:GetClass() == "npc_manhack" then
             dmginfo:ScaleDamage(0)
             dmginfo:SetDamage(0)
