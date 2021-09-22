@@ -83,9 +83,22 @@ function EVENT:Begin()
         if not IsValid(att) then return end
 
         if Randomat:IsTraitorTeam(ent) and att:GetClass() == "npc_manhack" then
-            dmginfo:ScaleDamage(0)
-            dmginfo:SetDamage(0)
-            return false
+            local isBee = false
+            local children = att:GetChildren()
+            if children then
+                for _, c in ipairs(children) do
+                    if c:GetClass() == "prop_dynamic" and string.find(c:GetModel(), "bee") then
+                        isBee = true
+                        break
+                    end
+                end
+            end
+
+            if isBee then
+                dmginfo:ScaleDamage(0)
+                dmginfo:SetDamage(0)
+                return false
+            end
         end
     end)
 
