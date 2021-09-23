@@ -10,6 +10,20 @@ EVENT.Description = "Those aren't traitors, they're BEEEEEEEEES!"
 EVENT.id = "beeswin"
 EVENT.Type = EVENT_TYPE_WEAPON_OVERRIDE
 
+local function IsBee(ent)
+    if ent:GetClass() == "npc_manhack" then
+        local children = ent:GetChildren()
+        if children then
+            for _, c in ipairs(children) do
+                if c:GetClass() == "prop_dynamic" and string.find(c:GetModel(), "bee") then
+                    return true
+                end
+            end
+        end
+    end
+    return false
+end
+
 function EVENT:Begin()
     net.Start("RandomatBeesWinBegin")
     net.Broadcast()
@@ -26,10 +40,10 @@ function EVENT:Begin()
 
     self:AddHook("TTTCheckForWin", function()
         local bees_win = true
-        for _, p in ipairs(player.GetAll()) do
+        for _, p in ipairs(self:GetAlivePlayers()) do
             -- If there is a living non-bee then go back to the default check logic
             -- Exceptions for non-clown Jesters
-            if p:Alive() and not p:IsSpec() and not Randomat:IsTraitorTeam(p) and (p:GetRole() == ROLE_CLOWN or not Randomat:IsJesterTeam(p)) then
+            if not Randomat:IsTraitorTeam(p) and (p:GetRole() == ROLE_CLOWN or not Randomat:IsJesterTeam(p)) then
                 bees_win = false
                 break
             end
@@ -82,27 +96,33 @@ function EVENT:Begin()
         local att = dmginfo:GetAttacker()
         if not IsValid(att) then return end
 
-        if Randomat:IsTraitorTeam(ent) and att:GetClass() == "npc_manhack" then
-            local isBee = false
-            local children = att:GetChildren()
-            if children then
-                for _, c in ipairs(children) do
-                    if c:GetClass() == "prop_dynamic" and string.find(c:GetModel(), "bee") then
-                        isBee = true
-                        break
+        -- Don't let bees damage our team members or jesters
+        if (Randomat:IsTraitorTeam(ent) or Randomat:IsJesterTeam(ent)) and IsBee(att) then
+            dmginfo:ScaleDamage(0)
+            dmginfo:SetDamage(0)
+            return false
+        end
+    end)
+
+    local nextRelationshipUpdate = CurTime()
+    self:AddHook("Think", function()
+        if CurTime() < nextRelationshipUpdate then return end
+
+        nextRelationshipUpdate = CurTime() + 0.08
+        for _, ent in ipairs(ents.FindByClass("npc_manhack")) do
+            if IsBee(ent) then
+                for _, ply in ipairs(self:GetAlivePlayers()) do
+                    if Randomat:IsTraitorTeam(ply) then
+                        ent:AddEntityRelationship(ply, D_LI, 99)
+                    else
+                        ent:AddEntityRelationship(ply, D_HT, 99)
                     end
                 end
-            end
-
-            if isBee then
-                dmginfo:ScaleDamage(0)
-                dmginfo:SetDamage(0)
-                return false
             end
         end
     end)
 
-    -- Start "bees" event if that is enabled
+    -- Spawn bees if that is enabled
     local bee_count = GetConVar("randomat_beeswin_count"):GetInt()
     if bee_count > 0 then
         local t_count = #traitors
