@@ -84,5 +84,6 @@ function BEESWIN:RegisterRoles()
 
     if CLIENT then
         LANG.AddToLanguage("english", "win_bees", "The bees have stung their way to a win!")
+        LANG.AddToLanguage("english", "ev_win_bees", "The bees have stung their way to a win!")
     end
 end
