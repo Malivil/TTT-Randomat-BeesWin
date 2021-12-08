@@ -56,9 +56,6 @@ function BEESWIN:RegisterRoles()
 
     self.registered = true
 
-    -- If we can't autogenerate one, use "Bee" on a cell keyboard
-    WIN_BEES = GenerateNewWinID and GenerateNewWinID() or 233
-
     -- Register the Bee
     local BEE = {
         nameraw = "bee",
@@ -81,6 +78,15 @@ function BEESWIN:RegisterRoles()
         team = ROLE_TEAM_TRAITOR
     }
     CreateRole(QBEE)
+
+    -- Generate this after registering the roles so we have the role IDs
+    -- If we can't autogenerate one, use "Bee" on a cell keyboard
+    WIN_BEES = GenerateNewWinID and GenerateNewWinID(ROLE_BEE) or 233
+
+    -- Map the generated win with the other role too
+    if WINS_BY_ROLE then
+        WINS_BY_ROLE[ROLE_QUEENBEE] = WIN_BEES
+    end
 
     if CLIENT then
         LANG.AddToLanguage("english", "win_bees", "The bees have stung their way to a win!")
