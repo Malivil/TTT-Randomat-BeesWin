@@ -1,3 +1,4 @@
+WIN_BEES = nil
 BEESWIN = {
     registered = false
 }
@@ -51,6 +52,13 @@ local function CreateRole(role)
     end
 end
 
+local function SyncWinID()
+    -- Map the generated win with the other role too
+    if WINS_BY_ROLE then
+        WINS_BY_ROLE[ROLE_QUEENBEE] = WIN_BEES
+    end
+end
+
 function BEESWIN:RegisterRoles()
     if self.registered then return end
 
@@ -79,16 +87,26 @@ function BEESWIN:RegisterRoles()
     }
     CreateRole(QBEE)
 
-    -- Generate this after registering the roles so we have the role IDs
-    -- If we can't autogenerate one, use "Bee" on a cell keyboard
-    WIN_BEES = GenerateNewWinID and GenerateNewWinID(ROLE_BEE) or 233
+    if SERVER or not CRVersion("1.4.6") then
+        -- Generate this after registering the roles so we have the role IDs
+        WIN_BEES = GenerateNewWinID(ROLE_BEE)
+    end
+    SyncWinID()
 
-    -- Map the generated win with the other role too
-    if WINS_BY_ROLE then
-        WINS_BY_ROLE[ROLE_QUEENBEE] = WIN_BEES
+    -- Sync the updated IDs to the client
+    if SERVER and CRVersion("1.4.6") then
+        net.Start("TTT_SyncWinIDs")
+        net.WriteTable(WINS_BY_ROLE)
+        net.WriteUInt(WIN_MAX, 16)
+        net.Broadcast()
     end
 
     if CLIENT then
+        hook.Add("TTTSyncWinIDs", "RdmtBeesWin_TTTWinIDsSynced", function()
+            WIN_BEES = WINS_BY_ROLE[ROLE_BEE]
+            SyncWinID()
+        end)
+
         LANG.AddToLanguage("english", "win_bees", "The bees have stung their way to a win!")
         LANG.AddToLanguage("english", "ev_win_bees", "The bees have stung their way to a win!")
     end
