@@ -1,4 +1,3 @@
-WIN_BEES = nil
 BEESWIN = {
     registered = false
 }
