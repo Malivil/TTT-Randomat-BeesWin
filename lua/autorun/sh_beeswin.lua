@@ -86,14 +86,14 @@ function BEESWIN:RegisterRoles()
     }
     CreateRole(QBEE)
 
-    if SERVER or not CRVersion("1.4.6") then
+    if SERVER then
         -- Generate this after registering the roles so we have the role IDs
         WIN_BEES = GenerateNewWinID(ROLE_BEE)
-    end
-    SyncWinID()
 
-    -- Sync the updated IDs to the client
-    if SERVER and CRVersion("1.4.6") then
+        -- Then sync it in the lookup table for the Queen Bee as well
+        SyncWinID()
+
+        -- And sync the ID to the client
         net.Start("TTT_SyncWinIDs")
         net.WriteTable(WINS_BY_ROLE)
         net.WriteUInt(WIN_MAX, 16)
@@ -102,7 +102,9 @@ function BEESWIN:RegisterRoles()
 
     if CLIENT then
         hook.Add("TTTSyncWinIDs", "RdmtBeesWin_TTTWinIDsSynced", function()
+            -- Grab the new win ID from the lookup table
             WIN_BEES = WINS_BY_ROLE[ROLE_BEE]
+            -- And then sync it back to the lookup table for the Queen Bee as well
             SyncWinID()
         end)
 
