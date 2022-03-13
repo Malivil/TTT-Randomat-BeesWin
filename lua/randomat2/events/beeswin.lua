@@ -9,7 +9,7 @@ EVENT.Title = "Bees Win?"
 EVENT.Description = "Those aren't traitors, they're BEEEEEEEEES!"
 EVENT.id = "beeswin"
 EVENT.Type = EVENT_TYPE_WEAPON_OVERRIDE
-EVENT.Categories = {"rolechange", "largeimpact"}
+EVENT.Categories = {"rolechange", "entityspawn", "largeimpact"}
 
 local function IsBee(ent)
     if ent:GetClass() == "npc_manhack" then
