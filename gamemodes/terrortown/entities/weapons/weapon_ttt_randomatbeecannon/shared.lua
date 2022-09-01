@@ -55,8 +55,8 @@ function SWEP:PrimaryAttack()
         -- Spawn a bee and give it forward velocity like it was just shot out of the gun
         local bee = Randomat:SpawnBee(owner, nil, height)
 
-		local ang = self.Owner:EyeAngles()
-        bee:SetPos(self.Owner:GetShootPos() + ang:Forward() * 50 + ang:Right() * 1 - ang:Up() * 1)
+		local ang = owner:EyeAngles()
+        bee:SetPos(owner:GetShootPos() + ang:Forward() * 50 + ang:Right() * 1 - ang:Up() * 1)
         bee:SetAngles(ang)
         local physobj = bee:GetPhysicsObject()
         if IsValid(physobj) then
@@ -70,4 +70,8 @@ end
 
 function SWEP:SecondaryAttack()
 	-- Do nothing
+end
+
+function SWEP:OnDrop()
+    self:Remove()
 end

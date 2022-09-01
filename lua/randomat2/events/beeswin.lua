@@ -98,7 +98,7 @@ function EVENT:Begin()
         if not IsValid(att) then return end
 
         -- Don't let bees damage our team members or jesters
-        if (Randomat:IsTraitorTeam(ent) or Randomat:IsJesterTeam(ent)) and IsBee(att) then
+        if Randomat:IsTraitorTeam(ent) and IsBee(att) then
             dmginfo:ScaleDamage(0)
             dmginfo:SetDamage(0)
             return false
@@ -115,6 +115,8 @@ function EVENT:Begin()
                 for _, ply in ipairs(self:GetAlivePlayers()) do
                     if Randomat:IsTraitorTeam(ply) then
                         ent:AddEntityRelationship(ply, D_LI, 99)
+                    elseif Randomat:IsJesterTeam(ply) then
+                        ent:AddEntityRelationship(ply, D_NU, 99)
                     else
                         ent:AddEntityRelationship(ply, D_HT, 99)
                     end
