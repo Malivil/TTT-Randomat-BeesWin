@@ -110,5 +110,15 @@ function BEESWIN:RegisterRoles()
 
         LANG.AddToLanguage("english", "win_bees", "The bees have stung their way to a win!")
         LANG.AddToLanguage("english", "ev_win_bees", "The bees have stung their way to a win!")
+
+        -- Popup
+        LANG.AddToLanguage("english", "info_popup_queenbee", [[You are {role}! {comrades}
+
+Work with the other Bees to defeat your foes using your bee-themed shop.
+
+Press {menukey} to receive your special equipment!]])
+        LANG.AddToLanguage("english", "info_popup_bee", [[You are {role}! {comrades}
+
+Use your bee cannon to launch bees at your foes and protect your Queen!]])
     end
 end
