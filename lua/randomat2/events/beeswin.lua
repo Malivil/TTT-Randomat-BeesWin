@@ -147,6 +147,8 @@ end
 
 function EVENT:End()
     timer.Remove("RandomatBeesWinBeeSpawn")
+    net.Start("RandomatBeesWinEnd")
+    net.Broadcast()
 end
 
 function EVENT:Condition()
