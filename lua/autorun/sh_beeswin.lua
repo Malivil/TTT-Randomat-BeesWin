@@ -18,16 +18,16 @@ end
 
 local function CreateRole(role)
     local rolestring = role.nameraw
-    CreateConVar("ttt_" .. rolestring .. "_enabled", "0")
+    CreateConVar("ttt_" .. rolestring .. "_enabled", "0", FCVAR_REPLICATED)
     CreateConVar("ttt_" .. rolestring .. "_spawn_weight", "1")
     CreateConVar("ttt_" .. rolestring .. "_min_players", "0")
     CreateConVar("ttt_" .. rolestring .. "_starting_health", "100")
     CreateConVar("ttt_" .. rolestring .. "_max_health", "100")
-    CreateConVar("ttt_" .. rolestring .. "_name", role.name)
-    CreateConVar("ttt_" .. rolestring .. "_name_plural", role.nameplural)
-    CreateConVar("ttt_" .. rolestring .. "_name_article", role.nameext)
-    CreateConVar("ttt_" .. rolestring .. "_shop_random_percent", "0")
-    CreateConVar("ttt_" .. rolestring .. "_shop_random_enabled", "0")
+    CreateConVar("ttt_" .. rolestring .. "_name", role.name, FCVAR_REPLICATED)
+    CreateConVar("ttt_" .. rolestring .. "_name_plural", role.nameplural, FCVAR_REPLICATED)
+    CreateConVar("ttt_" .. rolestring .. "_name_article", role.nameext, FCVAR_REPLICATED)
+    CreateConVar("ttt_" .. rolestring .. "_shop_random_percent", "0", FCVAR_REPLICATED)
+    CreateConVar("ttt_" .. rolestring .. "_shop_random_enabled", "0", FCVAR_REPLICATED)
     RegisterRole(role)
 
     if role.shop then
