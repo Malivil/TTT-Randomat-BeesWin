@@ -18,9 +18,6 @@ end
 
 local function CreateRole(role)
     local rolestring = role.nameraw
-    CreateConVar("ttt_" .. rolestring .. "_enabled", "0", FCVAR_REPLICATED)
-    CreateConVar("ttt_" .. rolestring .. "_spawn_weight", "1")
-    CreateConVar("ttt_" .. rolestring .. "_min_players", "0")
     CreateConVar("ttt_" .. rolestring .. "_starting_health", "100")
     CreateConVar("ttt_" .. rolestring .. "_max_health", "100")
     CreateConVar("ttt_" .. rolestring .. "_name", role.name, FCVAR_REPLICATED)
@@ -70,7 +67,8 @@ function BEESWIN:RegisterRoles()
         nameplural = "Bees",
         nameext = "a Bee",
         nameshort = "bee",
-        team = ROLE_TEAM_TRAITOR
+        team = ROLE_TEAM_TRAITOR,
+        blockspawnconvars = true
     }
     CreateRole(BEE)
 
@@ -82,7 +80,8 @@ function BEESWIN:RegisterRoles()
         nameext = "a Queen Bee",
         nameshort = "qbee",
         shop = {"item_radar", "weapon_ttt_beenade", "weapon_controllable_manhack"},
-        team = ROLE_TEAM_TRAITOR
+        team = ROLE_TEAM_TRAITOR,
+        blockspawnconvars = true
     }
     CreateRole(QBEE)
 
