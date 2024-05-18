@@ -2,20 +2,6 @@ BEESWIN = {
     registered = false
 }
 
-if SERVER then
-    resource.AddFile("materials/vgui/ttt/icon_bee.vmt")
-    resource.AddFile("materials/vgui/ttt/sprite_bee.vmt")
-    resource.AddSingleFile("materials/vgui/ttt/sprite_bee_noz.vmt")
-    resource.AddSingleFile("materials/vgui/ttt/score_bee.png")
-    resource.AddSingleFile("materials/vgui/ttt/tab_bee.png")
-
-    resource.AddFile("materials/vgui/ttt/icon_qbee.vmt")
-    resource.AddFile("materials/vgui/ttt/sprite_qbee.vmt")
-    resource.AddSingleFile("materials/vgui/ttt/sprite_qbee_noz.vmt")
-    resource.AddSingleFile("materials/vgui/ttt/score_qbee.png")
-    resource.AddSingleFile("materials/vgui/ttt/tab_qbee.png")
-end
-
 local function CreateRole(role)
     local rolestring = role.nameraw
     CreateConVar("ttt_" .. rolestring .. "_starting_health", "100")
