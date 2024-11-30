@@ -24,7 +24,7 @@ end
 
 function EVENT:Initialize()
     timer.Simple(1, function()
-        BEESWIN:RegisterRole()
+        BEESWIN:RegisterRoles()
     end)
 end
 
