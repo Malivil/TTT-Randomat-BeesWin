@@ -1,9 +1,6 @@
 local EVENT = {}
 
-util.AddNetworkString("RandomatBeesWinBegin")
-util.AddNetworkString("RandomatBeesWinEnd")
-
-CreateConVar("randomat_beeswin_count", 3, {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "The number of bees spawned per player", 0, 10)
+CreateConVar("randomat_beeswin_count", 3, FCVAR_NOTIFY, "The number of bees spawned per player", 0, 10)
 
 EVENT.Title = "Bees Win?"
 EVENT.Description = "Those aren't traitors, they're BEEEEEEEEES!"
@@ -26,9 +23,6 @@ local function IsBee(ent)
 end
 
 function EVENT:Begin()
-    net.Start("RandomatBeesWinBegin")
-    net.Broadcast()
-
     BEESWIN:RegisterRoles()
 
     self:AddHook("TTTPrintResultMessage", function(win_type)
@@ -147,8 +141,6 @@ end
 
 function EVENT:End()
     timer.Remove("RandomatBeesWinBeeSpawn")
-    net.Start("RandomatBeesWinEnd")
-    net.Broadcast()
 end
 
 function EVENT:Condition()
