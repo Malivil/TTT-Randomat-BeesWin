@@ -1,9 +1,13 @@
 local EVENT = {}
 EVENT.id = "beeswin"
 
-function EVENT:Begin()
-    BEESWIN:RegisterRoles()
+function EVENT:Initialize()
+    timer.Simple(1, function()
+        BEESWIN:RegisterRole()
+    end)
+end
 
+function EVENT:Begin()
     self:AddHook("TTTScoringWinTitle", function(wintype, wintitle, title)
         if wintype == WIN_BEES then
             return { txt = "hilite_win_role_plural", params = { role = ROLE_STRINGS_PLURAL[ROLE_BEE]:upper() }, c = Color(245, 200, 0, 255) }

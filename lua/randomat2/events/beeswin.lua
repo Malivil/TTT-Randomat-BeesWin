@@ -22,9 +22,13 @@ local function IsBee(ent)
     return false
 end
 
-function EVENT:Begin()
-    BEESWIN:RegisterRoles()
+function EVENT:Initialize()
+    timer.Simple(1, function()
+        BEESWIN:RegisterRole()
+    end)
+end
 
+function EVENT:Begin()
     self:AddHook("TTTPrintResultMessage", function(win_type)
         if win_type == WIN_BEES then
             LANG.Msg("win_bees")
