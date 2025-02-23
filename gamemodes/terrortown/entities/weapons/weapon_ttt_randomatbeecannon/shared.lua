@@ -12,7 +12,6 @@ SWEP.DrawAmmo = false
 SWEP.DrawCrosshair = false
 SWEP.Weight = 5
 
-SWEP.Primary.Automatic = false
 SWEP.Primary.Ammo = "none"
 SWEP.Primary.Delay = 5
 SWEP.Primary.Recoil = 50
