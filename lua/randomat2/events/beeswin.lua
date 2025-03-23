@@ -1,6 +1,6 @@
 local EVENT = {}
 
-CreateConVar("randomat_beeswin_count", 3, FCVAR_ARCHIVE, "The number of bees spawned per player", 0, 10)
+CreateConVar("randomat_beeswin_count", 3, FCVAR_NONE, "The number of bees spawned per player", 0, 10)
 
 EVENT.Title = "Bees Win?"
 EVENT.Description = "Those aren't traitors, they're BEEEEEEEEES!"
